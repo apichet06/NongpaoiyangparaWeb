@@ -81,7 +81,7 @@ export default function Weightprice() {
     const [validated, setValidated] = useState(false);
 
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(5);
+    const [limit, setLimit] = useState(10);
     const [totalRecords, setTotalRecords] = useState(0);
 
     const fetchData = useCallback(async (r_numberSearch: string, u_firstname: string, page: number, limit: number) => {
