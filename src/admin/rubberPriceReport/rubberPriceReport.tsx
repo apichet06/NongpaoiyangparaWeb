@@ -170,13 +170,13 @@ export default function RubberPriceReport() {
                                                 </Card>
                                             </Col>
                                             <Col sm={12}>
-                                                <strong>กลุ่มพัฒนายางพาราบ้านหนองป่าอ้อย</strong>
+                                                <h5>กลุ่มพัฒนายางพาราบ้านหนองป่าอ้อย</h5>
                                             </Col>
                                             <Col sm={12}>
                                                 <div>หมู่ที่1 ต.ลำห้วยหลัว อ.สมเด็จ จ.กาฬสินธุ์</div>
                                             </Col>
                                             <Col sm={12}>
-                                                <strong><i className="fas fa-phone fas-sm"></i> 097-9917542, 095-1700426</strong>
+                                                <strong><i className="fas fa-phone fas-sm"> 097-9917542, 095-1700426</i> </strong>
                                             </Col>
                                         </Row>
                                         <hr style={{ margin: '3px 0' }} />
