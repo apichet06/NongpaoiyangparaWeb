@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
-import { formatDate, formatPrice } from '../../utils/allfunctions';
+import { formatDate, formatDateThai, formatPrice, formatPriceToThaiText } from '../../utils/allfunctions';
 import axios from 'axios';
 import { api } from '../../utils/config';
 // import ComponentToPrint from './ComponentToPrint';
@@ -24,6 +24,7 @@ interface DataTypeRubberPriceR {
     u_share_id: number;
     r_number: string;
     value: string;
+    Address: string;
 }
 
 export default function RubberPriceReport() {
@@ -159,31 +160,62 @@ export default function RubberPriceReport() {
                     {
                         data.map((item: DataTypeRubberPriceR, index: number) => (
                             <>
-                                <Col md={6} sm={6} lg={6} xl={6}>
 
-                                    <Table key={index} striped bordered style={{ border: '1px solid black', fontSize: '14px' }}>
-                                        <tbody>
-                                            <tr>
-                                                <td align='right'>ชื่อ: </td>
-                                                <td>{item.username}</td>
-                                            </tr>
-                                            <tr>
-                                                <td align='right'>วันที่ขาย: </td>
-                                                <td>{formatDate(item.r_rubber_date)} รอบประจำเดือน : รอบที่ {item.r_around}</td>
-                                            </tr>
-                                            <tr>
-                                                <td align='right'>ราคาประมูล: </td>
-                                                <td>{formatPrice(item.r_rubber_price)} น้ำหนักรวม : {item.w_weigth} กิโลกรัม</td>
-                                            </tr>
-                                            <tr>
-                                                <td align='right'>รวมเป็นเงิน: </td>
-                                                <td colSpan={2}>{formatPrice(item.w_price)} บาท</td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                </Col >
+                                <Col md={6} sm={6} lg={6} xl={6} className='text-center mb-1'>
+                                    <Card>
+                                        <Row className='justify-content-center'>
+                                            <Col sm={4} className='mt-3'>
+                                                <Card>
+                                                    <div>บิลเงินสด</div>
+                                                </Card>
+                                            </Col>
+                                            <Col sm={12}>
+                                                <strong>กลุ่มพัฒนายางพาราบ้านหนองป่าอ้อย</strong>
+                                            </Col>
+                                            <Col sm={12}>
+                                                <div>หมู่ที่1 ต.ลำห้วยหลัว อ.สมเด็จ จ.กาฬสินธุ์</div>
+                                            </Col>
+                                            <Col sm={12}>
+                                                <strong><i className="fas fa-phone fas-sm"></i> 097-9917542, 095-1700426</strong>
+                                            </Col>
+                                        </Row>
+                                        <hr style={{ margin: '3px 0' }} />
+                                        <Row className='justify-content-end'>
+                                            <Col sm={8} className='text-start'>
+                                                <div>{formatDateThai(item.r_rubber_date)}</div>
+                                            </Col>
+                                            <Col sm={11} className='text-start'>
+                                                <div>ชื่อ {item.username}</div>
+                                            </Col>
+                                            <Col sm={11} className='text-start'>
+                                                <div>ที่อยู่ {item.Address}</div>
+                                            </Col>
+                                        </Row>
 
-
+                                        <Table key={index} bordered style={{ border: '1px solid black', fontSize: '14px' }}>
+                                            <thead>
+                                                <th>ครั้งที่</th>
+                                                <th>รายการ</th>
+                                                <th>น้ำหนัก</th>
+                                                <th>ราคา</th>
+                                                <th>เป็นเงิน</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td align='right'>{item.r_around}</td>
+                                                    <td align='right'>เศษยาง</td>
+                                                    <td align='right'>{formatPrice(item.w_weigth)}</td>
+                                                    <td align='right'>{formatPrice(item.r_rubber_price)}</td>
+                                                    <td align='right'>{formatPrice(item.w_price)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={4} align='right'>{formatPriceToThaiText(item.w_price)}</td>
+                                                    <td>{formatPrice(item.w_price)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+                                    </Card>
+                                </Col>
 
                             </>
                         ))
@@ -194,8 +226,8 @@ export default function RubberPriceReport() {
         const centeredHtml = ` 
              <html>
                 <head>
-                    <link rel="stylesheet" 
-                          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> 
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">  
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
                 </head>
                 <body>${Data}</body>
             </html>
