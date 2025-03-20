@@ -12,7 +12,11 @@ body {
   border-bottom: 7px solid #aed581;
   /* เส้นใต้สีแดง */
 }
-
+.navbar-underline-user {
+  /* border-bottom: 5px solid rgb(0, 235, 0); */
+  border-bottom: 7px solid #2ecc71;
+  /* เส้นใต้สีแดง */
+}
 .footer {
   background-color: white;
   /* สีพื้นขาว */

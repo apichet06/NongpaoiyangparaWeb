@@ -12,6 +12,9 @@ import ShareapercentReport from "./admin/shareapercentReport/shareapercentReport
 import SharePercent from "./admin/sharePercent/sharePercent";
 import Users from "./admin/users/users";
 import Weightprice from "./admin/weightprice/weightprice";
+import RubberPricehistoryUser from "./users/rubberPricehistoryUser";
+import RubberPriceReportUser from "./users/rubberPriceReportUser";
+import ShareapercentReportUser from "./users/shareapercentReportUser";
 
 function Layout() {
   const location = useLocation();
@@ -27,6 +30,9 @@ function Layout() {
         <Route path="RubberPricehistory" element={<RubberPricehistory />} />
         <Route path="RubberPriceReport" element={<RubberPriceReport />} />
         <Route path="ShareapercentReport" element={<ShareapercentReport />} />
+        <Route path="RubberPricehistory-user" element={<RubberPricehistoryUser />} />
+        <Route path="RubberPriceReport-user" element={<RubberPriceReportUser />} />
+        <Route path="ShareapercentReport-user" element={<ShareapercentReportUser />} />
         <Route path="SharePercent" element={<SharePercent />} />
         <Route path="Users" element={<Users />} />
         <Route path="Weightprice" element={<Weightprice />} />

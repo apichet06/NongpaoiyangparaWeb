@@ -56,7 +56,8 @@ export default function LoginForm() {
 
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("resulte", JSON.stringify(response.data.resulte));
+
+          localStorage.setItem("resulte", JSON.stringify(response.data.user));
           navigate("/home");
         }
 
