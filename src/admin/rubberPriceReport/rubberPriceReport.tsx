@@ -162,7 +162,7 @@ export default function RubberPriceReport() {
                             <>
 
                                 <Col md={6} sm={6} lg={6} xl={6} className='text-center mb-1'>
-                                    <Card>
+                                    <Card className='px-2'>
                                         <Row className='justify-content-center'>
                                             <Col sm={4} className='mt-3'>
                                                 <Card>
