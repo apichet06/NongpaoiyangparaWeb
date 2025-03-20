@@ -5,9 +5,10 @@ import { api } from '../../utils/config';
 // import ComponentToPrint from './ComponentToPrint';
 import DataTable from 'react-data-table-component';
 import Select, { SingleValue } from 'react-select';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { format } from "date-fns";
 // import { useReactToPrint } from 'react-to-print'
+import * as ReactDOMServer from 'react-dom/server';
 
 interface DataTypeRubberPriceR {
     w_number: number;
@@ -127,7 +128,7 @@ export default function RubberPriceReport() {
 
     const downloadExcelFile = async () => {
         try {
-            const Data = { r_number, u_number }
+            const Data = { r_number, u_firstname: u_number }
             const response = await axios.post(api + "/weightprice/Export", Data, { responseType: 'blob' });
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -141,16 +142,88 @@ export default function RubberPriceReport() {
         }
     }
 
-
     const ChangeUsers = (e: SingleValue<DataTypeRubberPriceR> | null) => setUnumber(e?.value || "");
-
-
 
     useEffect(() => {
         showData();
         userData()
         handlerubberpriceChange()
     }, [showData, userData, handlerubberpriceChange])
+
+
+    const handlePrint = async () => {
+
+        const Data = ReactDOMServer.renderToStaticMarkup(
+            <Container fluid>
+                <Row className='justify-content-start'>
+                    {
+                        data.map((item: DataTypeRubberPriceR, index: number) => (
+                            <>
+                                <Col md={6} sm={6} lg={6} xl={6}>
+
+                                    <Table key={index} striped bordered style={{ border: '1px solid black', fontSize: '14px' }}>
+                                        <tbody>
+                                            <tr>
+                                                <td align='right'>ชื่อ: </td>
+                                                <td>{item.username}</td>
+                                            </tr>
+                                            <tr>
+                                                <td align='right'>วันที่ขาย: </td>
+                                                <td>{formatDate(item.r_rubber_date)} รอบประจำเดือน : รอบที่ {item.r_around}</td>
+                                            </tr>
+                                            <tr>
+                                                <td align='right'>ราคาประมูล: </td>
+                                                <td>{formatPrice(item.r_rubber_price)} น้ำหนักรวม : {item.w_weigth} กิโลกรัม</td>
+                                            </tr>
+                                            <tr>
+                                                <td align='right'>รวมเป็นเงิน: </td>
+                                                <td colSpan={2}>{formatPrice(item.w_price)} บาท</td>
+                                            </tr>
+                                        </tbody>
+                                    </Table>
+                                </Col >
+
+
+
+                            </>
+                        ))
+                    }
+                </Row>
+            </Container >
+        );
+        const centeredHtml = ` 
+             <html>
+                <head>
+                    <link rel="stylesheet" 
+                          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> 
+                </head>
+                <body>${Data}</body>
+            </html>
+
+            `;
+
+        const createHtmlUrl = () => {
+            const blob = new Blob([centeredHtml], { type: 'text/html' });
+            return URL.createObjectURL(blob);
+        };
+
+        const htmlUrl = createHtmlUrl();
+
+        let printFrame = document.getElementById('printIframe') as HTMLIFrameElement;
+        if (!printFrame) {
+            printFrame = document.createElement('iframe');
+            printFrame.id = 'printIframe';
+            printFrame.style.display = 'none';
+            document.body.appendChild(printFrame);
+        }
+
+        printFrame.src = htmlUrl;
+
+        printFrame.onload = () => {
+            printFrame.contentWindow?.focus();
+            printFrame.contentWindow?.print();
+        };
+    }
 
     return (
         <Container>
@@ -185,7 +258,7 @@ export default function RubberPriceReport() {
                             {(r_number || u_number) ?
                                 <>
                                     <Button className='btn btn-sm btn-secondary' onClick={downloadExcelFile}>ออกรายงาน Excel</Button>  {' '}
-                                    {/* <button className='btn btn-sm btn-dark' onClick={handlePrint} >พิมพ์เอกสาร</button> */}
+                                    <button className='btn btn-sm btn-dark' onClick={handlePrint} >พิมพ์เอกสาร</button>
                                 </> : <strong className='text-danger'>ออกรายงาน Excel จำเป็นต้องค้นข้อมูลทุกครั้ง</strong>
                             }
                         </Col>
